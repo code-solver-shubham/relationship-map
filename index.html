@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Our Little Map ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#08070b;
+    color:#fff;
+    font-family:Inter,sans-serif;
+    overflow-x:hidden;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:
+        radial-gradient(circle at center,#24172c 0%,#09070c 45%,#030305 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    transition:1.5s ease;
+}
+
+.intro.hide{
+    opacity:0;
+    pointer-events:none;
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:.7;
+    animation:twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2;transform:scale(.7)}
+    to{opacity:1;transform:scale(1.5)}
+}
+
+.intro-content{
+    position:relative;
+    z-index:2;
+    padding:25px;
+}
+
+.mini{
+    font-size:11px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    opacity:.6;
+    margin-bottom:25px;
+}
+
+.intro h1{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(45px,11vw,100px);
+    font-weight:500;
+    line-height:.9;
+}
+
+.intro h1 span{
+    color:#d9a7ba;
+    font-style:italic;
+}
+
+.intro p{
+    max-width:520px;
+    margin:30px auto;
+    color:#c9c1c7;
+    line-height:1.8;
+    font-size:14px;
+}
+
+.start-btn{
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.05);
+    color:white;
+    padding:15px 28px;
+    border-radius:50px;
+    cursor:pointer;
+    letter-spacing:2px;
+    transition:.4s;
+}
+
+.start-btn:hover{
+    background:white;
+    color:#111;
+    transform:translateY(-3px);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 45%,#38213b 0%,#151019 35%,#07070a 75%);
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:rgba(214,161,184,.08);
+    filter:blur(50px);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:30px;
+}
+
+.hero-small{
+    letter-spacing:7px;
+    font-size:10px;
+    color:#d4b4c2;
+    margin-bottom:20px;
+}
+
+.hero h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(50px,12vw,120px);
+    font-weight:400;
+    line-height:.85;
+}
+
+.hero h2 em{
+    color:#dcaebe;
+}
+
+.hero-text{
+    max-width:600px;
+    margin:30px auto;
+    color:#bdb5bc;
+    line-height:1.9;
+    font-size:14px;
+}
+
+.scroll{
+    margin-top:50px;
+    font-size:10px;
+    letter-spacing:4px;
+    opacity:.5;
+}
+
+/* =========================
+   MAP
+========================= */
+
+.map-section{
+    min-height:100vh;
+    padding:100px 20px;
+    background:
+        radial-gradient(circle at 50% 20%,#201c29,#08070b 65%);
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.section-heading small{
+    color:#c997ab;
+    letter-spacing:5px;
+    font-size:10px;
+}
+
+.section-heading h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(40px,8vw,75px);
+    font-weight:400;
+    margin-top:15px;
+}
+
+.map{
+    max-width:1100px;
+    min-height:850px;
+    margin:auto;
+    position:relative;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:35px;
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 20% 20%,rgba(197,153,174,.1),transparent 30%),
+        radial-gradient(circle at 80% 70%,rgba(90,120,160,.1),transparent 30%),
+        linear-gradient(140deg,#101116,#15131a,#0c0c10);
+}
+
+/* Decorative map lines */
+
+.map-line{
+    position:absolute;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
+    transform-origin:left;
+}
+
+.l1{
+    width:900px;
+    top:300px;
+    left:80px;
+    transform:rotate(15deg);
+}
+
+.l2{
+    width:800px;
+    top:550px;
+    left:100px;
+    transform:rotate(-18deg);
+}
+
+.l3{
+    width:700px;
+    top:680px;
+    left:200px;
+    transform:rotate(10deg);
+}
+
+/* Route */
+
+.route{
+    position:absolute;
+    width:72%;
+    height:2px;
+    top:47%;
+    left:14%;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #d8a9bb 0 8px,
+            transparent 8px 18px
+        );
+    transform:rotate(12deg);
+    opacity:.4;
+    animation:routeGlow 3s infinite alternate;
+}
+
+@keyframes routeGlow{
+    from{opacity:.2}
+    to{opacity:.7}
+}
+
+/* Pins */
+
+.pin{
+    position:absolute;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:#dba8bb;
+    border:5px solid rgba(255,255,255,.2);
+    box-shadow:
+        0 0 0 0 rgba(219,168,187,.5),
+        0 0 30px rgba(219,168,187,.7);
+    cursor:pointer;
+    z-index:5;
+    transition:.4s;
+}
+
+.pin:after{
+    content:"";
+    position:absolute;
+    inset:-12px;
+    border:1px solid rgba(219,168,187,.4);
+    border-radius:50%;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(.7);opacity:.9}
+    100%{transform:scale(1.6);opacity:0}
+}
+
+.pin:hover{
+    transform:scale(1.4);
+}
+
+.pin-label{
+    position:absolute;
+    left:35px;
+    top:-7px;
+    white-space:nowrap;
+    font-size:11px;
+    color:#ddd;
+    letter-spacing:1px;
+}
+
+.p1{left:18%;top:38%}
+.p2{left:35%;top:45%}
+.p3{left:43%;top:52%}
+.p4{left:54%;top:37%}
+.p5{left:62%;top:30%}
+.p6{left:70%;top:42%}
+.p7{left:77%;top:55%}
+.p8{left:65%;top:68%}
+.p9{left:48%;top:72%}
+.p10{left:31%;top:65%}
+.p11{left:20%;top:58%}
+.p12{left:83%;top:72%}
+
+/* =========================
+   STORY MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(15px);
+    opacity:0;
+    pointer-events:none;
+    transition:.5s;
+}
+
+.modal.active{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.story-card{
+    width:min(900px,100%);
+    max-height:92vh;
+    overflow-y:auto;
+    border-radius:30px;
+    background:#111015;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+    transform:translateY(40px) scale(.96);
+    transition:.6s;
+}
+
+.modal.active .story-card{
+    transform:translateY(0) scale(1);
+}
+
+.story-image{
+    width:100%;
+    height:420px;
+    object-fit:cover;
+    display:block;
+    background:
+        linear-gradient(135deg,#241b29,#0e0d12);
+}
+
+.story-body{
+    padding:35px;
+}
+
+.story-date{
+    color:#d5a4b8;
+    letter-spacing:4px;
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+.story-title{
+    font-family:"Cormorant Garamond",serif;
+    font-size:45px;
+    font-weight:500;
+    margin:12px 0 20px;
+}
+
+.story-text{
+    color:#c5bec5;
+    line-height:2;
+    white-space:pre-line;
+    font-size:14px;
+}
+
+.future-box{
+    margin-top:30px;
+    padding:22px;
+    border-radius:18px;
+    background:rgba(213,164,184,.06);
+    border:1px solid rgba(213,164,184,.12);
+}
+
+.future-box strong{
+    color:#e0afc2;
+    display:block;
+    margin-bottom:10px;
+}
+
+.close{
+    position:absolute;
+    right:25px;
+    top:20px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.5);
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    z-index:10;
+}
+
+/* =========================
+   SPECIAL SECTIONS
+========================= */
+
+.special{
+    min-height:100vh;
+    padding:100px 20px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.special-inner{
+    max-width:850px;
+    position:relative;
+    z-index:2;
+}
+
+.special small{
+    letter-spacing:5px;
+    font-size:10px;
+    color:#d9a8ba;
+}
+
+.special h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(55px,10vw,110px);
+    font-weight:400;
+    line-height:.9;
+    margin:25px 0;
+}
+
+.special p{
+    max-width:650px;
+    margin:auto;
+    color:#c6bfc5;
+    line-height:2;
+}
+
+.night{
+    background:
+        linear-gradient(rgba(5,5,10,.35),rgba(5,5,10,.9)),
+        url("https://images.unsplash.com/photo-1478827387698-1527781a4887?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+}
+
+.swiss{
+    background:
+        linear-gradient(rgba(5,10,15,.25),rgba(5,8,12,.85)),
+        url("https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+}
+
+.hotel{
+    background:
+        linear-gradient(rgba(10,6,10,.3),rgba(10,6,10,.9)),
+        url("https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+}
+
+.hug{
+    background:
+        linear-gradient(rgba(20,12,20,.2),rgba(8,7,11,.9)),
+        url("https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+}
+
+/* =========================
+   SOMEDAY
+========================= */
+
+.someday{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at center,#342234,#0a080d 65%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+    position:relative;
+    overflow:hidden;
+}
+
+.someday-content{
+    max-width:750px;
+}
+
+.someday-pin{
+    width:70px;
+    height:70px;
+    margin:0 auto 40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    border:1px solid rgba(255,255,255,.25);
+    box-shadow:0 0 70px rgba(219,168,187,.35);
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-15px)}
+}
+
+.someday h2{
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(55px,10vw,100px);
+    font-weight:400;
+}
+
+.someday p{
+    color:#c7c0c7;
+    line-height:2;
+    margin:30px auto;
+}
+
+.final{
+    color:#e1adbf;
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:20px;
+}
+
+/* hearts */
+
+.heart{
+    position:fixed;
+    pointer-events:none;
+    z-index:9000;
+    animation:heartFloat 2s ease-out forwards;
+}
+
+@keyframes heartFloat{
+    from{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+    to{
+        opacity:0;
+        transform:translateY(-120px) rotate(20deg) scale(1.5);
+    }
+}
+
+/* mobile */
+
+@media(max-width:650px){
+
+    .map{
+        min-height:700px;
+        border-radius:22px;
+    }
+
+    .pin-label{
+        font-size:8px;
+    }
+
+    .story-image{
+        height:280px;
+    }
+
+    .story-body{
+        padding:25px;
+    }
+
+    .story-title{
+        font-size:37px;
+    }
+
+    .story-text{
+        font-size:13px;
+    }
+
+    .route{
+        width:80%;
+        left:10%;
+    }
+
+    .p1{left:12%;top:32%}
+    .p2{left:27%;top:40%}
+    .p3{left:40%;top:48%}
+    .p4{left:52%;top:32%}
+    .p5{left:64%;top:27%}
+    .p6{left:74%;top:40%}
+    .p7{left:80%;top:52%}
+    .p8{left:66%;top:63%}
+    .p9{left:50%;top:69%}
+    .p10{left:34%;top:61%}
+    .p11{left:18%;top:55%}
+    .p12{left:82%;top:70%}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+
+<div class="intro" id="intro">
+
+    <div class="stars" id="stars"></div>
+
+    <div class="intro-content">
+
+        <div class="mini">A little journey made for Divuuu</div>
+
+        <h1>
+            Our<br>
+            <span>Map.</span>
+        </h1>
+
+        <p>
+            Some places are just places.<br>
+            Some become memories.<br>
+            And some become a part of a love story.
+        </p>
+
+        <button class="start-btn" onclick="startJourney()">
+            START OUR JOURNEY ❤️
+        </button>
+
+    </div>
+</div>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-small">
+            SHUBHAM × DIVUU
+        </div>
+
+        <h2>
+            Our Story<br>
+            Has <em>Places.</em>
+        </h2>
+
+        <p class="hero-text">
+            Humari story sirf dates aur messages se nahi bani.
+            Kuch jagahon ne bhi humari story ko apne andar sambhal ke rakha hai.
+            Kuch jagah hum ja chuke hain...
+            aur kuch abhi humara wait kar rahi hain. ❤️
+        </p>
+
+        <div class="scroll">
+            ↓ SCROLL TO EXPLORE ↓
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MAP -->
+
+<section class="map-section">
+
+    <div class="section-heading">
+
+        <small>PAST • PRESENT • FUTURE</small>
+
+        <h2>
+            The places that<br>
+            belong to us.
+        </h2>
+
+    </div>
+
+
+    <div class="map">
+
+        <div class="map-line l1"></div>
+        <div class="map-line l2"></div>
+        <div class="map-line l3"></div>
+
+        <div class="route"></div>
+
+
+        <!-- REAL PLACES -->
+
+        <div class="pin p1"
+             onclick="openStory(0)">
+            <span class="pin-label">02 MAR • FIRST MEET</span>
+        </div>
+
+
+        <div class="pin p2"
+             onclick="openStory(1)">
+            <span class="pin-label">01 AUG</span>
+        </div>
+
+
+        <div class="pin p3"
+             onclick="openStory(2)">
+            <span class="pin-label">19 AUG • FIRST TOUCH</span>
+        </div>
+
+
+        <!-- FUTURE -->
+
+        <div class="pin p4"
+             onclick="openStory(3)">
+            <span class="pin-label">THE HUG</span>
+        </div>
+
+
+        <div class="pin p5"
+             onclick="openStory(4)">
+            <span class="pin-label">NIGHT RIDE</span>
+        </div>
+
+
+        <div class="pin p6"
+             onclick="openStory(5)">
+            <span class="pin-label">VRINDAVAN</span>
+        </div>
+
+
+        <div class="pin p7"
+             onclick="openStory(6)">
+            <span class="pin-label">VAISHNODEVI</span>
+        </div>
+
+
+        <div class="pin p8"
+             onclick="openStory(7)">
+            <span class="pin-label">ROHTAS</span>
+        </div>
+
+
+        <div class="pin p9"
+             onclick="openStory(8)">
+            <span class="pin-label">SWITZERLAND</span>
+        </div>
+
+
+        <div class="pin p10"
+             onclick="openStory(9)">
+            <span class="pin-label">WEEKEND ESCAPE</span>
+        </div>
+
+
+        <div class="pin p11"
+             onclick="openStory(10)">
+            <span class="pin-label">MEGHALAYA</span>
+        </div>
+
+
+        <div class="pin p12"
+             onclick="openStory(11)">
+            <span class="pin-label">KASHMIR</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SPECIAL CINEMATIC SECTIONS -->
+
+<section class="special hug">
+
+    <div class="special-inner">
+
+        <small>FUTURE MEMORY #01</small>
+
+        <h2>
+            Aap Mere<br>
+            Paas. ❤️
+        </h2>
+
+        <p>
+            Ek din aap mere paas aao.
+            No phone. No screen. No distance.
+            Bas aap aur main.
+            Aur main aapko finally properly hug kar paun.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="special night">
+
+    <div class="special-inner">
+
+        <small>FUTURE MEMORY #02</small>
+
+        <h2>
+            One Night.<br>
+            One Bike.<br>
+            Us. 🌙
+        </h2>
+
+        <p>
+            Koi perfect destination zaroori nahi.
+            Bas raat ho, thandi hawa ho,
+            ek bike ho aur aap mere peeche.
+            Music low ho aur duniya thodi der ke liye disappear.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="special swiss">
+
+    <div class="special-inner">
+
+        <small>THE BIG DREAM</small>
+
+        <h2>
+            Switzerland. ❄️
+        </h2>
+
+        <p>
+            Aapko Switzerland kitna pasand hai...
+            isliye ek din hum dono wahan khade honge.
+            Snow, mountains, lakes aur green valleys ke beech.
+            Aur shayad us waqt main bas aapko dekh raha hounga.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="special hotel">
+
+    <div class="special-inner">
+
+        <small>ONE LITTLE ESCAPE</small>
+
+        <h2>
+            Just Us. 🕯️
+        </h2>
+
+        <p>
+            Ek peaceful weekend.
+            Good food.
+            Long conversations.
+            Movies.
+            Laughter.
+            No rushing.
+            No distance.
+            Bas ek beautiful place aur hum dono.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- SOMEDAY -->
+
+<section class="someday">
+
+    <div class="someday-content">
+
+        <div class="someday-pin">
+            📍
+        </div>
+
+        <div class="section-heading">
+            <small>THE LAST PIN</small>
+        </div>
+
+        <h2>
+            SOMEDAY
+        </h2>
+
+        <p>
+            I don't know where this pin will be.
+            <br><br>
+
+            Maybe another city.<br>
+            Maybe another country.<br>
+            Maybe somewhere we've never even heard of.
+            <br><br>
+
+            But I know who I want standing there with me.
+        </p>
+
+        <div class="final">
+            You. ❤️
+        </div>
+
+        <p>
+            Our map isn't complete.
+            <br><br>
+
+            And honestly...
+            that's my favourite part.
+            <br><br>
+
+            Because it means
+            <br>
+            <strong>we still have places left to go.</strong>
+        </p>
+
+        <div class="final">
+            SHUBHAM ❤️ DIVUU
+            <br><br>
+            <small>OUR STORY IS STILL BEING WRITTEN.</small>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STORY MODAL -->
+
+<div class="modal" id="modal">
+
+    <button class="close" onclick="closeStory()">×</button>
+
+    <div class="story-card">
+
+        <img
+            id="storyImage"
+            class="story-image"
+            src=""
+            alt="Memory">
+
+        <div class="story-body">
+
+            <div
+                id="storyDate"
+                class="story-date">
+            </div>
+
+            <h2
+                id="storyTitle"
+                class="story-title">
+            </h2>
+
+            <p
+                id="storyText"
+                class="story-text">
+            </p>
+
+            <div
+                id="futureBox"
+                class="future-box">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================
+   STARS
+========================== */
+
+const stars = document.getElementById("stars");
+
+for(let i=0;i<90;i++){
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left = Math.random()*100 + "%";
+    star.style.top = Math.random()*100 + "%";
+
+    star.style.animationDelay =
+        Math.random()*3 + "s";
+
+    stars.appendChild(star);
+}
+
+
+/* ==========================
+   DATA
+========================== */
+
+const stories = [
+
+{
+    date:"02 MARCH • FIRST MEETUP",
+    title:"Durga Sthan, Shahwajpur 🛕",
+    image:"images/durga-sthan.jpg",
+
+    text:`2 March.
+
+Hum dono pehli baar properly mile the yahin.
+
+Aapke ghar ke paas ka woh Durga Sthan shayad kisi aur ke liye bas ek jagah hai...
+
+mere liye nahi.
+
+Because this is where the girl from the other side of my screen finally became real.
+
+Humari first meetup.
+
+Aur honestly...
+
+main iss jagah ko kabhi normal place ki tarah nahi dekh paunga.
+
+Ye humari story ka first real location hai. ❤️`,
+
+    future:"FIRST REAL MEMORY ❤️"
+},
+
+
+{
+    date:"01 AUGUST • THE DAY WE ALMOST MET",
+    title:"Goraul Station 🚉",
+    image:"images/goraul-1-august.jpg",
+
+    text:`1 August.
+
+Aap pehli baar Goraul aayi thi...
+
+but hum us din mil nahi paaye.
+
+Thoda sad tha.
+
+Lekin funny thing ye hai ki station phir bhi humari story ka part ban gaya.
+
+Some places become memories even before the memory actually happens. ❤️`,
+
+    future:"A MEMORY THAT WAITED FOR ITS MOMENT."
+},
+
+
+{
+    date:"19 AUGUST • FIRST TOUCH",
+    title:"Goraul Station ❤️",
+    image:"images/goraul-19-august.jpg",
+
+    text:`19 August.
+
+Same station.
+
+But completely different memory.
+
+Iss baar hum mile.
+
+Aap mujhe gifts de rahi thi...
+
+aur phir woh moment...
+
+my first touch.
+
+Us moment mein shayad duniya ko kuch special nahi laga hoga.
+
+But mere liye...
+
+distance finally thodi der ke liye disappear ho gaya tha.
+
+Goraul Station is no longer just a station.
+
+It is one of the places where distance became touch. ❤️`,
+
+    future:"DISTANCE → TOUCH → US ❤️"
+},
+
+
+{
+    date:"FUTURE MEMORY #01",
+    title:"Aap Mere Paas 🫂",
+    image:"https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1600&q=85",
+
+    text:`Koi particular city nahi.
+
+Koi particular destination nahi.
+
+Bas ek din...
+
+aap mere paas aao.
+
+No phone.
+
+No screen.
+
+No distance.
+
+Bas aap.
+
+Aur main.
+
+Aur main aapko finally properly hug kar paun. 🥺❤️`,
+
+    future:"WHAT WE'LL DO: Just sit together, talk for hours, laugh, and make the first real hug a memory we'll never forget."
+},
+
+
+{
+    date:"FUTURE MEMORY #02",
+    title:"Night Bike Ride 🌙",
+    image:"https://images.unsplash.com/photo-1478827387698-1527781a4887?auto=format&fit=crop&w=1600&q=85",
+
+    text:`Raat.
+
+Thandi hawa.
+
+Ek bike.
+
+Aur aap mere peeche.
+
+Koi perfect destination zaroori nahi.
+
+Bas roads thodi quiet hon.
+
+Music low ho.
+
+Aur aap beech-beech mein mujhe tang karti raho. 😂❤️
+
+Destination doesn't matter.
+
+You sitting behind me does.`,
+
+    future:"WHAT WE'LL DO: Ride somewhere peaceful, stop for chai, look at the night sky and come back with one more stupid story."
+},
+
+
+{
+    date:"FUTURE MEMORY #03",
+    title:"Vrindavan 🌸",
+    image:"images/vrindavan.jpg",
+
+    text:`Ek din Vrindavan jayenge.
+
+Mandir dekhenge.
+
+Galiyon mein chalenge.
+
+Kuch achha khayenge.
+
+Random photos lenge.
+
+Aur shayad kisi random moment pe main aapko dekh kar sochunga...
+
+"Accha...
+
+ye woh ladki hai jiske saath main yahan aana chahta tha." ❤️`,
+
+    future:"WHAT WE'LL DO: Explore together, visit beautiful places, eat something random and take way too many photos."
+},
+
+
+{
+    date:"FUTURE MEMORY #04",
+    title:"Vaishnodevi 🏔️",
+    image:"images/vaishnodevi.jpg",
+
+    text:`Ye sirf destination nahi hoga.
+
+Ye ek journey hogi.
+
+Walking.
+
+Tiredness.
+
+Random conversations.
+
+Aur beech-beech mein...
+
+"Bacha thak gaye?" 😂❤️
+
+Aur phir finally reaching there together.
+
+One more memory added to our map.`,
+
+    future:"WHAT WE'LL DO: Complete the journey together, take breaks, talk endlessly and celebrate when we reach."
+},
+
+
+{
+    date:"FUTURE MEMORY #05",
+    title:"Rohtas 🌿",
+    image:"images/rohtas.jpg",
+
+    text:`Nature.
+
+Mountains.
+
+Roads.
+
+Exploration.
+
+Hum bina kisi perfect plan ke niklenge.
+
+Aur jo jagah beautiful lagegi...
+
+wahi ruk jayenge.
+
+Because sometimes the best memories aren't planned.
+
+They just happen. ❤️`,
+
+    future:"WHAT WE'LL DO: Explore nature, discover random spots, take pictures and spend the day away from everything."
+},
+
+
+{
+    date:"THE BIG DREAM • FUTURE MEMORY #06",
+    title:"Switzerland ❄️",
+    image:"images/switzerland.jpg",
+
+    text:`Aapko Switzerland kitna pasand hai...
+
+isliye ek din ye pin humare map par sirf dream nahi rahega.
+
+Snow.
+
+Mountains.
+
+Lakes.
+
+Green valleys.
+
+Aur hum dono.
+
+Aap probably photos lene mein busy...
+
+aur main probably aapko dekhne mein. 😂❤️
+
+Someday, Divuuu.
+
+We'll stand somewhere beautiful and say:
+
+"Hum sach mein yahan aa gaye."`,
+
+    future:"WHAT WE'LL DO: Snow, mountains, lakes, long walks, countless pictures and one unforgettable 'we actually made it' moment."
+},
+
+
+{
+    date:"FUTURE MEMORY #07",
+    title:"Our Little Weekend Escape 🕯️",
+    image:"https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1600&q=85",
+
+    text:`Ek peaceful weekend.
+
+No rushing.
+
+No distance.
+
+No distractions.
+
+Good food.
+
+Movies.
+
+Long conversations.
+
+Laughter.
+
+Aur ek beautiful place jahan time thoda slow ho jaye.
+
+Bas uss din duniya ko thodi der ke liye side mein rakh denge.
+
+Just us. ❤️`,
+
+    future:"WHAT WE'LL DO: Eat together, watch movies, talk until late, laugh at stupid things and enjoy having no schedule."
+},
+
+
+{
+    date:"FUTURE MEMORY #08",
+    title:"Meghalaya 🌧️🌿",
+    image:"images/meghalaya.jpg",
+
+    text:`Clouds.
+
+Green mountains.
+
+Waterfalls.
+
+Rain.
+
+Aur ek aisi jagah jahan hum dono thodi der duniya se disconnect ho sakein.
+
+No rush.
+
+No noise.
+
+Just nature.
+
+And us.`,
+
+    future:"WHAT WE'LL DO: Chase waterfalls, walk through green landscapes, enjoy the rain and take a million nature photos."
+},
+
+
+{
+    date:"FUTURE MEMORY #09",
+    title:"Kashmir 🏔️",
+    image:"images/kashmir.jpg",
+
+    text:`Snowy mountains.
+
+Lakes.
+
+Quiet mornings.
+
+Long walks.
+
+Ek din hum wahan honge.
+
+Aur main aapko bolunga...
+
+"Divuuu, phone side mein rakho...
+
+ye view camera mein nahi aayega." 😂❤️
+
+Some places are better experienced than photographed.`,
+
+    future:"WHAT WE'LL DO: See the mountains, explore peaceful places, take a shikara ride and make slow, beautiful memories."
+}
+
+];
+
+
+/* ==========================
+   OPEN STORY
+========================== */
+
+function openStory(index){
+
+    const story = stories[index];
+
+    document.getElementById("storyDate").innerText =
+        story.date;
+
+    document.getElementById("storyTitle").innerText =
+        story.title;
+
+    document.getElementById("storyText").innerText =
+        story.text;
+
+    document.getElementById("storyImage").src =
+        story.image;
+
+    document.getElementById("futureBox").innerHTML =
+        `<strong>${story.future.includes("WHAT WE'LL DO") ? "OUR PLAN ❤️" : "THIS PLACE MEANS..."}</strong>
+        ${story.future}`;
+
+    document.getElementById("modal")
+        .classList.add("active");
+
+    createHearts(8);
+}
+
+
+/* ==========================
+   CLOSE
+========================== */
+
+function closeStory(){
+
+    document.getElementById("modal")
+        .classList.remove("active");
+}
+
+document.getElementById("modal")
+.addEventListener("click",function(e){
+
+    if(e.target === this){
+        closeStory();
+    }
+
+});
+
+
+/* ==========================
+   INTRO
+========================== */
+
+function startJourney(){
+
+    document.getElementById("intro")
+        .classList.add("hide");
+
+    createHearts(15);
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* ==========================
+   HEART PARTICLES
+========================== */
+
+function createHearts(amount){
+
+    for(let i=0;i<amount;i++){
+
+        const heart =
+            document.createElement("div");
+
+        heart.className="heart";
+
+        heart.innerText =
+            ["❤️","💗","💖","💕","✨"][Math.floor(Math.random()*5)];
+
+        heart.style.left =
+            Math.random()*100+"vw";
+
+        heart.style.top =
+            (50 + Math.random()*40)+"vh";
+
+        heart.style.fontSize =
+            (12 + Math.random()*18)+"px";
+
+        heart.style.animationDelay =
+            Math.random()*.5+"s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },2500);
+    }
+}
+
+
+/* ==========================
+   ESC KEY
+========================== */
+
+document.addEventListener("keydown",function(e){
+
+    if(e.key === "Escape"){
+        closeStory();
+    }
+
+});
+
+
+/* ==========================
+   IMAGE FALLBACK
+========================== */
+
+document.getElementById("storyImage")
+.addEventListener("error",function(){
+
+    this.src =
+    "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1600&q=85";
+
+});
+
+
+/* ==========================
+   RANDOM HEARTS
+========================== */
+
+setInterval(()=>{
+
+    if(Math.random()>.65){
+        createHearts(1);
+    }
+
+},4000);
+
+</script>
+
+</body>
+  </html>
